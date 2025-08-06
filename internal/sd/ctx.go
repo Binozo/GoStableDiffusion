@@ -1,51 +1,31 @@
 package sd
 
 // #include "stable-diffusion.h"
+// #include <stdlib.h>
 import "C"
 
 type Ctx struct {
 	internal *C.sd_ctx_t
+	params   *CtxParams
 }
 
-func NewSdContext(
-	modelPath, clipLPath, clipGPath, t5xxlPath, diffusionModelPath, vaePath, taeSdPath, controlNetPath, loraModelDir, embedDir, stackedIdEmbedDir string,
-	vaeDecodingOnly, vaeTiling, freeParamsImmediately bool,
-	nThreads int,
-	wType Type,
-	rngType Rng,
-	schedule Scheduler,
-	keepClipOnCpu, keepControlNetCpu, keepVaeOnCpu, diffusionFlashAttn bool,
-) *Ctx {
-	cInternal := C.new_sd_ctx(
-		C.CString(modelPath),
-		C.CString(clipLPath),
-		C.CString(clipGPath),
-		C.CString(t5xxlPath),
-		C.CString(diffusionModelPath),
-		C.CString(vaePath),
-		C.CString(taeSdPath),
-		C.CString(controlNetPath),
-		C.CString(loraModelDir),
-		C.CString(embedDir),
-		C.CString(stackedIdEmbedDir),
-		C.bool(vaeDecodingOnly),
-		C.bool(vaeTiling),
-		C.bool(freeParamsImmediately),
-		C.int(nThreads),
-		wType.internal(),
-		rngType.internal(),
-		schedule.internal(),
-		C.bool(keepClipOnCpu),
-		C.bool(keepControlNetCpu),
-		C.bool(keepVaeOnCpu),
-		C.bool(diffusionFlashAttn),
-	)
+func NewSdContext(params *CtxParams) *Ctx {
+	var ctx *C.sd_ctx_t = C.new_sd_ctx(params.internal)
 
 	return &Ctx{
-		internal: cInternal,
+		internal: ctx,
+		params:   params,
 	}
 }
 
 func (c *Ctx) Free() {
-	C.free_sd_ctx(c.internal)
+	if c.params != nil {
+		c.params.Free()
+		c.params = nil
+	}
+
+	if c.internal != nil {
+		C.free_sd_ctx(c.internal)
+		c.internal = nil
+	}
 }
