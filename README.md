@@ -14,49 +14,16 @@ CGO bindings for the awesome [stable-diffusion.cpp](https://github.com/leejet/st
 - [ ] [Model quantization and conversion](https://github.com/leejet/stable-diffusion.cpp/blob/master/docs/quantization_and_gguf.md)
 - [ ] [PhotoMaker](https://github.com/leejet/stable-diffusion.cpp/blob/master/docs/photo_maker.md)
 
-## Setup
+## ⚙️ Setup
+### `stable-diffusion.cpp`
 
-### Compilation
+For this library to work you will need the compiled `stable-diffusion.cpp` library.
+Currently, [master-f7f05fb](https://github.com/leejet/stable-diffusion.cpp/releases/tag/master-f7f05fb) is supported.
 
-You have to compile the shared `stable-diffusion.cpp` library first. You can do this in three ways:
+You can either compile it yourself using the [official manual](https://github.com/leejet/stable-diffusion.cpp?tab=readme-ov-file#build)
+or you use the prebuilt library from the official [Releases](https://github.com/leejet/stable-diffusion.cpp/releases/tag/master-f7f05fb).
 
-- Using the prebuilt library from the official [Releases](https://github.com/leejet/stable-diffusion.cpp/releases/tag/master-30b3ac8)
-- Compile it yourself using the [official manual](https://github.com/leejet/stable-diffusion.cpp?tab=readme-ov-file#build)
-- Let this project compile it yourself
-
-#### Compiling using `go:generate`
-
-Clone this project
-```shell
-$ git clone https://github.com/Binozo/GoStableDiffusion
-$ cd GoStableDiffusion
-$ go generate
-```
-
-> [!NOTE]
-> `go generate` executes the [build.sh](./build.sh) script on unix or [build.bat](./build.bat) on windows.
-
-The `go:generate` script currently supports cuda, vulkan and metal as hardware accelerators.
-
-To enable one of these, simply set one of the following:
-- `CUDA=1`
-- `VULKAN=1`
-- `METAL=1`
-
-before running `go generate`. Example:
-
-```shell
-...
-$ CUDA=1 go generate
-```
-
-> [!TIP]
-> If you need extra help you can look at the [Dockerfile](./Dockerfile), [Dockerfile.cuda](./Dockerfile.cuda) or [Dockerfile.vulkan](./Dockerfile.vulkan) files.
-> Or just create an issue.
-
-After successful compilation you will find your built shared library at `stable-diffusion.cpp/build/bin/libstable-diffusion<.so/.dylib/.dll>`.
-
-#### Installing
+### Installation
 
 Now you have to install the shared library to your system. Either you place it at the same folder as your executable, or you install it system-wide:
 
@@ -66,14 +33,13 @@ Now you have to install the shared library to your system. Either you place it a
 #### Installing - Linux
 On Linux you can copy `libstable-diffusion.so` to `/usr/local/lib/`.
 
-#### Installing - MacOS
-On MacOS you can copy `libstable-diffusion.dylib` to `/usr/local/lib/`.
+#### Installing - macOS
+On macOS you can copy `libstable-diffusion.dylib` to `/usr/local/lib/`.
 
 #### Installing - Windows
 On Windows you can keep `libstable-diffusion.dll` in the same directory as your executable.
 
-
-### Go
+## 🎨 Usage
 
 Get the package
 ```shell
@@ -81,6 +47,10 @@ $ go get -u github.com/binozo/gostablediffusion
 ```
 
 Now you are ready to go! 🚀
+
+> [!NOTE]
+> Remember that this package uses CGO. You will need to specify `CGO_ENABLED=1` otherwise this library won't compile.
+> E.g. `CGO_ENABLED=1 go run main.go`
 
 ## Example
 
@@ -150,5 +120,41 @@ func main() {
 	fmt.Println("Done")
 }
 
-
 ```
+
+## 🧑‍💻 Development
+
+First clone this project:
+
+```shell
+$ git clone https://github.com/Binozo/GoStableDiffusion
+$ cd GoStableDiffusion
+```
+
+and compile the `stable-diffusion.cpp` shared library:
+```shell
+$ go generate
+```
+
+> [!NOTE]
+> `go generate` executes the [build.sh](./build.sh) script on unix or [build.bat](./build.bat) on windows.
+
+The `go:generate` script currently supports cuda, vulkan and metal as hardware accelerators.
+
+To enable one of these, simply set one of the following:
+- `CUDA=1`
+- `VULKAN=1`
+- `METAL=1`
+
+before running `go generate`. Example:
+
+```shell
+...
+$ CUDA=1 go generate
+```
+
+> [!TIP]
+> If you need extra help you can look at the [Dockerfile](./Dockerfile), [Dockerfile.cuda](./Dockerfile.cuda) or [Dockerfile.vulkan](./Dockerfile.vulkan) files.
+> Or just create an issue.
+
+After successful compilation you will find your built shared library at `stable-diffusion.cpp/build/bin/libstable-diffusion<.so/.dylib/.dll>`.
