@@ -18,8 +18,9 @@ CGO bindings for the awesome [stable-diffusion.cpp](https://github.com/leejet/st
 
 ### Compilation
 
-You have to compile the shared `stable-diffusion.cpp` library first. You can do this in two ways:
+You have to compile the shared `stable-diffusion.cpp` library first. You can do this in three ways:
 
+- Using the prebuilt library from the official [Releases](https://github.com/leejet/stable-diffusion.cpp/releases/tag/master-30b3ac8)
 - Compile it yourself using the [official manual](https://github.com/leejet/stable-diffusion.cpp?tab=readme-ov-file#build)
 - Let this project compile it yourself
 
@@ -57,7 +58,7 @@ After successful compilation you will find your built shared library at `stable-
 
 #### Installing
 
-Now you have to install the shared library to your system
+Now you have to install the shared library to your system. Either you place it at the same folder as your executable, or you install it system-wide:
 
 > [!NOTE]
 > Keep in mind you need to ship the shared library with your application.
