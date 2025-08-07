@@ -1,6 +1,6 @@
 package sd
 
-// #include "../../stable-diffusion.cpp/stable-diffusion.h"
+// #include "stable-diffusion.h"
 import "C"
 
 type Type C.enum_sd_type_t

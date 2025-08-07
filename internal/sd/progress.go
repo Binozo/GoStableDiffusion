@@ -1,7 +1,7 @@
 package sd
 
 /*
-#include "../../stable-diffusion.cpp/stable-diffusion.h"
+#include "stable-diffusion.h"
 
 extern void goProgressCallback(int step, int steps, float time, void* data);
 

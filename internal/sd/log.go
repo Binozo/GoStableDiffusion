@@ -1,7 +1,7 @@
 package sd
 
 /*
-#include "../../stable-diffusion.cpp/stable-diffusion.h"
+#include "stable-diffusion.h"
 #include <stdlib.h>
 
 extern void goLogCallback(enum sd_log_level_t level, char* text, void* data);

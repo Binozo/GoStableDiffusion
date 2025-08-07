@@ -1,6 +1,6 @@
 package sd
 
-// #include "../../stable-diffusion.cpp/stable-diffusion.h"
+// #include "stable-diffusion.h"
 import "C"
 
 type SampleMethod C.enum_sample_method_t
