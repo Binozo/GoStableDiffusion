@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/binozo/gostablediffusion/pkg/sd"
 	"image/png"
 	"os"
 	"time"
 	"unsafe"
+
+	"github.com/binozo/gostablediffusion/pkg/sd"
 )
 
 func main() {
@@ -45,15 +46,15 @@ func main() {
 	}
 	defer ctx.Free()
 
-	params := sd.NewDefaultParams()
+	params := sd.NewImageGenerationParams()
+	params.Guidance.TxtCfg = 1
 	params.SampleMethod = sd.Euler
 	params.Height = 512
 	params.Width = 512
-	params.CfgScale = 1
 	params.Prompt = "a lovely cat holding a sign says 'flux.cpp'<lora:realism_lora_comfy_converted:1>"
 
 	fmt.Println("Running inference")
-	result := ctx.Text2Img(params)
+	result := ctx.GenerateImage(params)
 
 	fmt.Println("Writing result to output.png")
 	targetFile, _ := os.OpenFile("output.png", os.O_WRONLY|os.O_CREATE, 0600)
