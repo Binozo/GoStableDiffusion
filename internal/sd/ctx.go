@@ -1,6 +1,6 @@
 package sd
 
-// #include "stable-diffusion.h"
+// #include "../../stable-diffusion.cpp/stable-diffusion.h"
 // #include <stdlib.h>
 import "C"
 

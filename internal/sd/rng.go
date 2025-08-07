@@ -1,6 +1,6 @@
 package sd
 
-// #include "stable-diffusion.h"
+// #include "../../stable-diffusion.cpp/stable-diffusion.h"
 import "C"
 
 type Rng C.enum_rng_type_t
