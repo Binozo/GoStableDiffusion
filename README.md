@@ -60,11 +60,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/binozo/gostablediffusion/pkg/sd"
 	"image/png"
 	"os"
 	"time"
 	"unsafe"
+
+	"github.com/binozo/gostablediffusion/pkg/sd"
 )
 
 func main() {
@@ -90,8 +91,7 @@ func main() {
 	})
 
 	ctx, err := sd.New().
-		SetModel("models/sd3_medium_incl_clips_t5xxlfp16.safetensors").
-		UseFlashAttn().
+		SetModel("models/sd-v1-4.ckpt").
 		Load()
 
 	if err != nil {
@@ -99,8 +99,8 @@ func main() {
 	}
 	defer ctx.Free()
 
-	params := sd.NewDefaultParams()
-	params.CfgScale = 5
+	params := sd.NewImageGenerationParams()
+	params.Guidance.TxtCfg = 3
 	params.SampleSteps = 30
 	params.SampleMethod = sd.Euler
 	params.Height = 768
@@ -109,12 +109,13 @@ func main() {
 	params.Prompt = "fantasy medieval village world inside a glass sphere , high detail, fantasy, realistic, light effect, hyper detail, volumetric lighting, cinematic, macro, depth of field, blur, red light and clouds from the back, highly detailed epic cinematic concept art cg render made in maya, blender and photoshop, octane render, excellent composition, dynamic dramatic cinematic lighting, aesthetic, very inspirational, world inside a glass sphere by james gurney by artgerm with james jean, joe fenton and tristan eaton by ross tran, fine details, 4k resolution"
 
 	fmt.Println("Running inference")
-	result := ctx.Text2Img(params)
+	result := ctx.GenerateImage(params)
+	defer result.Free()
 
 	fmt.Println("Writing result to output.png")
 	targetFile, _ := os.OpenFile("output.png", os.O_WRONLY|os.O_CREATE, 0600)
 	defer targetFile.Close()
-	if err := png.Encode(targetFile, result.Image()); err != nil {
+	if err = png.Encode(targetFile, result.Image()); err != nil {
 		panic(err)
 	}
 	fmt.Println("Done")
