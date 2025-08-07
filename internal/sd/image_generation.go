@@ -21,6 +21,7 @@ func (i *Image) internal() *C.sd_image_t {
 	}
 
 	var internalImage *C.sd_image_t = (*C.sd_image_t)(C.malloc(C.sizeof_sd_image_t))
+	i.internalImage = internalImage
 
 	internalImage.width = C.uint32_t(i.width)
 	internalImage.height = C.uint32_t(i.height)
@@ -42,6 +43,7 @@ func (i *Image) Free() {
 	if i.internalImage != nil {
 		if i.internalImage.data != nil {
 			C.free(unsafe.Pointer(i.internalImage.data))
+			i.internalImage.data = nil
 		}
 		C.free(unsafe.Pointer(i.internalImage))
 		i.internalImage = nil
@@ -70,6 +72,10 @@ func (i *Image) Image() *image.RGBA {
 }
 
 func parseImage(img *Image) *image.RGBA {
+	if img.channel != 3 {
+		return nil
+	}
+
 	rect := image.Rect(0, 0, img.width, img.height)
 	return &image.RGBA{
 		Pix:    convertRGBtoRGBA(img.data, img.width, img.height),
