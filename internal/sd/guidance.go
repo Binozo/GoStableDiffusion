@@ -6,6 +6,7 @@ import "C"
 import "unsafe"
 
 type Guidance struct {
+	// TxtCfg is just normal Cfg
 	TxtCfg            float32
 	ImgCfg            float32
 	MinCfg            float32
