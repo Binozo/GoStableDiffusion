@@ -2,9 +2,10 @@ package sd
 
 import (
 	"errors"
-	"github.com/binozo/gostablediffusion/internal/sd"
 	"os"
 	"runtime"
+
+	"github.com/binozo/gostablediffusion/internal/sd"
 )
 
 type ContextParams struct {
@@ -49,7 +50,7 @@ func (cp *ContextParams) validate() error {
 	if cp.ModelPath == "" && cp.DiffusionModelPath == "" {
 		return errors.New("model path required")
 	} else if !fileExists(cp.ModelPath) && !fileExists(cp.DiffusionModelPath) {
-		return errors.New("model path does not exist")
+		return errors.New("main model path does not exist")
 	}
 
 	if cp.ClipLPath != "" && !fileExists(cp.ClipLPath) {

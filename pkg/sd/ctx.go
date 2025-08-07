@@ -17,7 +17,7 @@ func NewContext(params ContextParams) (*Context, error) {
 		return nil, err
 	}
 
-	cCtx := sd.NewSdContext(
+	cCtx := sd.NewSdContext(sd.NewContextParams(
 		params.ModelPath,
 		params.ClipLPath,
 		params.ClipGPath,
@@ -40,7 +40,7 @@ func NewContext(params ContextParams) (*Context, error) {
 		params.KeepControlNetCpu,
 		params.KeepVaeOnCpu,
 		params.DiffusionFlashAttn,
-	)
+	))
 
 	return &Context{
 		internal: cCtx,
