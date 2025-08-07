@@ -8,7 +8,7 @@ on:
 jobs:
   build_macos:
     name: "Build on MacOS"
-    runs-on: macos-latest
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v3
 
@@ -24,7 +24,7 @@ jobs:
 
   build_windows:
     name: "Build on Windows"
-    runs-on: windows-2019
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v3
 
@@ -41,7 +41,7 @@ jobs:
 
   build_linux:
     name: "Build on Linux"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v3
 
