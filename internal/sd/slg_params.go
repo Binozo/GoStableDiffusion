@@ -6,7 +6,7 @@ import "C"
 import "unsafe"
 
 type SlgParams struct {
-	Layers     int
+	Layers     []int
 	LayerStart float32
 	LayerEnd   float32
 	Scale      float32
@@ -21,11 +21,19 @@ func (p *SlgParams) internal() *C.sd_slg_params_t {
 
 	params := (*C.sd_slg_params_t)(C.malloc(C.sizeof_sd_slg_params_t))
 
-	layers := (*C.int)(C.malloc(C.sizeof_int))
-	*layers = C.int(p.Layers)
+	if p.Layers != nil && len(p.Layers) > 0 {
+		layersC := (*C.int)(C.malloc(C.size_t(len(p.Layers)) * C.sizeof_int))
+		layersSlice := unsafe.Slice(layersC, len(p.Layers))
+		for i, layer := range p.Layers {
+			layersSlice[i] = C.int(layer)
+		}
+		params.layers = layersC
+		params.layer_count = C.size_t(len(p.Layers))
+	} else {
+		params.layers = nil
+		params.layer_count = 0
+	}
 
-	params.layers = layers
-	params.layer_count = 0
 	params.layer_start = C.float(p.LayerStart)
 	params.layer_end = C.float(p.LayerEnd)
 	params.scale = C.float(p.Scale)
