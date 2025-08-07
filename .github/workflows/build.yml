@@ -10,7 +10,7 @@ jobs:
     name: "Build on MacOS"
     runs-on: macos-13
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-go@v5
         with:
@@ -26,10 +26,10 @@ jobs:
     name: "Build on Windows"
     runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: cuda-toolkit
-        uses: Jimver/cuda-toolkit@v0.2.15
+        uses: Jimver/cuda-toolkit@v0.2.22
 
       - name: Generate
         run: go generate
